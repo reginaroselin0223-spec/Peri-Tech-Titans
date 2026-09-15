@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NetGuard AI - Network Twin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0F0A1A;
+            color: #F5F3FF;
+            min-height: 100vh;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+           ========================= */
+
+        .sidebar {
+            width: 272px;
+            background: #0B0713;
+            border-right: 1px solid #2E1A4D;
+            padding: 20px 12px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0 8px 35px;
+        }
+
+        .brand-icon {
+            width: 52px;
+            height: 52px;
+            border: 1px solid #7C3AED;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            color: #C084FC;
+            background: #171025;
+            box-shadow: 0 0 18px rgba(124, 58, 237, 0.20);
+        }
+
+        .brand-name {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .brand-subtitle {
+            margin-top: 5px;
+            font-size: 9px;
+            color: #8B72A8;
+            letter-spacing: 1.5px;
+        }
+
+        .engine-status {
+            border-top: 1px solid #2E1A4D;
+            border-bottom: 1px solid #2E1A4D;
+            padding: 14px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .engine-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #A78BFA;
+            font-size: 11px;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #42E8AD;
+            box-shadow: 0 0 12px #42E8AD;
+        }
+
+        .ready {
+            color: #42E8AD;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .nav-item {
+            padding: 14px 10px;
+            border-radius: 8px;
+            color: #9B8AAF;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .nav-item:hover {
+            background: #1A1029;
+            color: #C084FC;
+        }
+
+        .nav-item.active {
+            background: rgba(124, 58, 237, 0.18);
+            border: 1px solid #6D28D9;
+            color: #C084FC;
+        }
+
+        .nav-icon {
+            width: 14px;
+            text-align: center;
+            color: #A78BFA;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid #2E1A4D;
+            padding: 28px 8px 0;
+        }
+
+        .local-model {
+            color: #8B72A8;
+            font-size: 9px;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .model-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #E9D5FF;
+        }
+
+        .offline {
+            margin-top: 7px;
+            font-size: 10px;
+            color: #765D91;
+        }
+
+        /* =========================
+           MAIN
+           ========================= */
+
+        .main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .topbar {
+            height: 78px;
+            border-bottom: 1px solid #2E1A4D;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 36px;
+            background: #0C0814;
+        }
+
+        .breadcrumb {
+            color: #8069A0;
+            font-size: 9px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .page-title {
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .monitoring {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #C084FC;
+            font-size: 10px;
+        }
+
+        .monitor-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #42E8AD;
+            box-shadow: 0 0 10px #42E8AD;
+        }
+
+        .content {
+            padding: 35px;
+        }
+
+        /* =========================
+           HEADER
+           ========================= */
+
+        .module-header {
+            margin-bottom: 25px;
+        }
+
+        .module-tag {
+            color: #C084FC;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        .module-title {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .module-description {
+            color: #A89BB8;
+            font-size: 13px;
+            line-height: 1.7;
+            max-width: 800px;
+        }
+
+        /* =========================
+           NETWORK TWIN
+           ========================= */
+
+        .twin-panel {
+            border: 1px solid #302044;
+            background: #100B19;
+            padding: 25px;
+            min-height: 560px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .panel-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .panel-status {
+            border: 1px solid #6D28D9;
+            color: #C084FC;
+            padding: 7px 12px;
+            font-size: 9px;
+            letter-spacing: 1px;
+        }
+
+        .network-area {
+            height: 430px;
+            position: relative;
+            border: 1px solid #241634;
+            background:
+                linear-gradient(rgba(124,58,237,.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(124,58,237,.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow: hidden;
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: #6D28D9;
+            transform-origin: left center;
+            opacity: .7;
+            box-shadow: 0 0 8px rgba(124,58,237,.5);
+        }
+
+        .connection.one {
+            width: 210px;
+            left: 17%;
+            top: 45%;
+            transform: rotate(-8deg);
+        }
+
+        .connection.two {
+            width: 200px;
+            left: 37%;
+            top: 43%;
+            transform: rotate(15deg);
+        }
+
+        .connection.three {
+            width: 190px;
+            left: 55%;
+            top: 51%;
+            transform: rotate(-18deg);
+        }
+
+        .connection.four {
+            width: 180px;
+            left: 30%;
+            top: 48%;
+            transform: rotate(42deg);
+        }
+
+        .connection.five {
+            width: 160px;
+            left: 65%;
+            top: 52%;
+            transform: rotate(35deg);
+        }
+
+        .node {
+            position: absolute;
+            width: 86px;
+            height: 86px;
+            border: 2px solid #7C3AED;
+            border-radius: 50%;
+            background: #120D1C;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+            box-shadow: 0 0 25px rgba(124,58,237,.18);
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .node:hover {
+            transform: scale(1.08);
+            border-color: #C084FC;
+            box-shadow: 0 0 35px rgba(168,85,247,.35);
+        }
+
+        .node-icon {
+            font-size: 22px;
+            color: #C084FC;
+        }
+
+        .node-name {
+            margin-top: 5px;
+            font-size: 9px;
+            color: #D8B4FE;
+            font-weight: bold;
+        }
+
+        .node-status {
+            margin-top: 3px;
+            font-size: 7px;
+            color: #42E8AD;
+        }
+
+        .node.router {
+            left: 42%;
+            top: 38%;
+            width: 105px;
+            height: 105px;
+            border-color: #A855F7;
+        }
+
+        .node.server {
+            left: 13%;
+            top: 28%;
+        }
+
+        .node.database {
+            left: 73%;
+            top: 25%;
+        }
+
+        .node.endpoint {
+            left: 28%;
+            top: 68%;
+        }
+
+        .node.cloud {
+            left: 62%;
+            top: 67%;
+        }
+
+        /* =========================
+           LEGEND
+           ========================= */
+
+        .legend {
+            display: flex;
+            gap: 25px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 9px;
+            color: #806C94;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .normal {
+            background: #42E8AD;
+        }
+
+        .monitored {
+            background: #A855F7;
+        }
+
+        .risk {
+            background: #F59E0B;
+        }
+
+        /* =========================
+           INFO CARDS
+           ========================= */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: #100B19;
+            border: 1px solid #302044;
+            padding: 20px;
+        }
+
+        .info-label {
+            color: #806C94;
+            font-size: 9px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .info-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #C084FC;
+        }
+
+        .info-note {
+            margin-top: 6px;
+            font-size: 9px;
+            color: #765D91;
+        }
+
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .app {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .sidebar-bottom {
+                display: none;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .network-area {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">♢</div>
+
+            <div>
+                <div class="brand-name">NETGUARD</div>
+                <div class="brand-subtitle">
+                    AI · FUTURE INTELLIGENCE
+                </div>
+            </div>
+        </div>
+
+        <div class="engine-status">
+
+            <div class="engine-left">
+                <div class="status-dot"></div>
+                OFFLINE AI ENGINE
+            </div>
+
+            <div class="ready">
+                READY
+            </div>
+
+        </div>
+
+        <nav class="nav">
+
+            <div class="nav-item"
+                 onclick="window.location.href='homepage.html'">
+                <span class="nav-icon">◇</span>
+                Command Center
+            </div>
+
+            <div class="nav-item active">
+                <span class="nav-icon">◎</span>
+                Network Twin
+            </div>
+
+            <div class="nav-item"
+     onclick="window.location.href='futuresimulator.html'">
+    <span class="nav-icon">◉</span>
+    Future Simulator
+</div>
+
+            <div class="nav-item"
+                 onclick="window.location.href='attackreplay.html'">
+                <span class="nav-icon">▶</span>
+                Attack Replay
+            </div>
+
+            <div class="nav-item"
+                 onclick="window.location.href='explainai.html'">
+                <span class="nav-icon">◇</span>
+                Explain AI
+            </div>
+
+            <div class="nav-item"
+                 onclick="window.location.href='decisionroom.html'">
+                <span class="nav-icon">♢</span>
+                Decision Room
+            </div>
+
+            <div class="nav-item"
+                 onclick="window.location.href='evidencecenter.html'">
+                <span class="nav-icon">▤</span>
+                Evidence Center
+            </div>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="local-model">
+                LOCAL MODEL
+            </div>
+
+            <div class="model-name">
+                NETGUARD FORECASTER v1.0
+            </div>
+
+            <div class="offline">
+                Offline inference enabled
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div>
+                <div class="breadcrumb">
+                    SECURITY OPERATIONS / NETGUARD AI
+                </div>
+
+                <div class="page-title">
+                    Network Twin
+                </div>
+            </div>
+
+            <div class="monitoring">
+                <div class="monitor-dot"></div>
+                LIVE NETWORK MODEL
+            </div>
+
+        </header>
+
+
+        <div class="content">
+
+            <section class="module-header">
+
+                <div class="module-tag">
+                    ◈ DIGITAL NETWORK REPRESENTATION
+                </div>
+
+                <h1 class="module-title">
+                    Network Twin
+                </h1>
+
+                <p class="module-description">
+                    A live digital representation of the monitored network.
+                    NetGuard AI maps devices, connections and communication
+                    paths to understand how an attack could propagate.
+                </p>
+
+            </section>
+
+
+            <!-- NETWORK MAP -->
+
+            <section class="twin-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <div class="panel-title">
+                            LIVE NETWORK TOPOLOGY
+                        </div>
+                    </div>
+
+                    <div class="panel-status">
+                        TWIN SYNCHRONIZED
+                    </div>
+
+                </div>
+
+
+                <div class="network-area">
+
+                    <div class="connection one"></div>
+                    <div class="connection two"></div>
+                    <div class="connection three"></div>
+                    <div class="connection four"></div>
+                    <div class="connection five"></div>
+
+
+                    <div class="node server"
+                         onclick="nodeInfo('Web Server')">
+
+                        <div class="node-icon">▣</div>
+                        <div class="node-name">WEB SERVER</div>
+                        <div class="node-status">NORMAL</div>
+
+                    </div>
+
+
+                    <div class="node router"
+                         onclick="nodeInfo('Core Router')">
+
+                        <div class="node-icon">◎</div>
+                        <div class="node-name">CORE ROUTER</div>
+                        <div class="node-status">MONITORED</div>
+
+                    </div>
+
+
+                    <div class="node database"
+                         onclick="nodeInfo('Database Server')">
+
+                        <div class="node-icon">▤</div>
+                        <div class="node-name">DATABASE</div>
+                        <div class="node-status">NORMAL</div>
+
+                    </div>
+
+
+                    <div class="node endpoint"
+                         onclick="nodeInfo('Endpoint Cluster')">
+
+                        <div class="node-icon">▥</div>
+                        <div class="node-name">ENDPOINTS</div>
+                        <div class="node-status">NORMAL</div>
+
+                    </div>
+
+
+                    <div class="node cloud"
+                         onclick="nodeInfo('Cloud Gateway')">
+
+                        <div class="node-icon">☁</div>
+                        <div class="node-name">CLOUD</div>
+                        <div class="node-status">NORMAL</div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="legend">
+
+                    <div class="legend-item">
+                        <span class="legend-dot normal"></span>
+                        NORMAL
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot monitored"></span>
+                        AI MONITORED
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-dot risk"></span>
+                        ELEVATED RISK
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- INFORMATION -->
+
+            <section class="info-grid">
+
+                <div class="info-card">
+                    <div class="info-label">
+                        ACTIVE DEVICES
+                    </div>
+
+                    <div class="info-value">
+                        24
+                    </div>
+
+                    <div class="info-note">
+                        Devices currently represented
+                    </div>
+                </div>
+
+
+                <div class="info-card">
+                    <div class="info-label">
+                        ACTIVE CONNECTIONS
+                    </div>
+
+                    <div class="info-value">
+                        87
+                    </div>
+
+                    <div class="info-note">
+                        Network paths being monitored
+                    </div>
+                </div>
+
+
+                <div class="info-card">
+                    <div class="info-label">
+                        ANOMALIES DETECTED
+                    </div>
+
+                    <div class="info-value">
+                        03
+                    </div>
+
+                    <div class="info-note">
+                        Requiring AI attention
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+
+function showFeature(feature) {
+
+    alert(
+        feature +
+        " module is the next NetGuard AI feature."
+    );
+
+}
+
+
+function nodeInfo(node) {
+
+    alert(
+        node +
+        "\\n\\n" +
+        "Status: Monitored\\n" +
+        "Connection: Active\\n" +
+        "AI observation: Enabled"
+    );
+
+}
+
+async function analyzeNetworkTraffic() {
+
+    const trafficData = [
+        {
+            packets: 12000,
+            bytes: 8500000,
+            destination_ip: "192.168.1.20",
+            destination_port: 443
+        },
+        {
+            packets: 3500,
+            bytes: 2100000,
+            destination_ip: "192.168.1.21",
+            destination_port: 22
+        },
+        {
+            packets: 1800,
+            bytes: 950000,
+            destination_ip: "192.168.1.22",
+            destination_port: 80
+        }
+    ];
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/analyze",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(trafficData)
+            }
+        );
+
+        const result = await response.json();
+
+        console.log("NETGUARD AI ANALYSIS:", result);
+
+        if (!response.ok) {
+            alert(result.error || "Analysis failed.");
+            return;
+        }
+
+        alert(
+            "NETGUARD AI ANALYSIS\n\n" +
+            "Risk Score: " + result.risk.score + "\n" +
+            "Threat Level: " + result.risk.level + "\n" +
+            "Attack Type: " + result.risk.attack_type + "\n" +
+            "Confidence: " + result.risk.confidence + "%"
+        );
+
+    } catch (error) {
+
+        console.error("Backend connection error:", error);
+
+        alert(
+            "Could not connect to NetGuard AI backend.\n\n" +
+            "Make sure python app.py is running."
+        );
+    }
+}
+
+
+</script>
+
+<button onclick="analyzeNetworkTraffic()">
+    Analyze Network Traffic
+</button>
+
+
+<script>
+function loadNetGuardAnalysis() {
+
+    const saved =
+        localStorage.getItem("netguardAnalysis");
+
+    if (!saved) {
+        return;
+    }
+
+    try {
+
+        const data = JSON.parse(saved);
+
+        console.log(
+            "Network Twin received:",
+            data
+        );
+
+        // Display the latest risk information
+        const risk =
+            data.risk || {};
+
+        const message =
+            "LATEST AI ANALYSIS\n\n" +
+            "Risk Score: " +
+            (risk.score ?? 0) + "\n" +
+            "Threat Level: " +
+            (risk.level ?? "UNKNOWN") + "\n" +
+            "Attack Type: " +
+            (risk.attack_type ?? "UNKNOWN") + "\n" +
+            "Confidence: " +
+            (risk.confidence ?? 0) + "%";
+
+        console.log(message);
+
+    }
+    catch (error) {
+
+        console.error(
+            "Could not load NetGuard analysis:",
+            error
+        );
+
+    }
+}
+
+loadNetGuardAnalysis();
+</script>
+</body>
+</html>

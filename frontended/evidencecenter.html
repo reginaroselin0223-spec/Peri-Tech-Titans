@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetGuard AI - Evidence Center</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0d0818;
+    color: white;
+    min-height: 100vh;
+}
+
+.header {
+    height: 72px;
+    background: #120b20;
+    border-bottom: 1px solid #34204d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.logo {
+    color: #c77dff;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.back-btn {
+    background: #24123a;
+    color: white;
+    border: 1px solid #63359b;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: #3a1d5d;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 35px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: #251239;
+    color: #c77dff;
+    border: 1px solid #60369a;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #a99bb8;
+    margin-bottom: 30px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.stat {
+    background: #130c1f;
+    border: 1px solid #34204d;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.stat-label {
+    color: #94889f;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    color: #c77dff;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.panel {
+    background: #130c1f;
+    border: 1px solid #34204d;
+    border-radius: 14px;
+    padding: 24px;
+}
+
+.panel h2 {
+    font-size: 18px;
+    margin-bottom: 18px;
+}
+
+.search {
+    width: 100%;
+    padding: 13px 15px;
+    background: #1a1028;
+    border: 1px solid #493064;
+    border-radius: 8px;
+    color: white;
+    outline: none;
+    margin-bottom: 20px;
+}
+
+.search:focus {
+    border-color: #a855f7;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
+
+th {
+    text-align: left;
+    color: #968aa2;
+    font-size: 12px;
+    padding: 14px;
+    border-bottom: 1px solid #34204d;
+}
+
+td {
+    padding: 16px 14px;
+    border-bottom: 1px solid #261938;
+    font-size: 14px;
+}
+
+tr:hover {
+    background: #190f27;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 15px;
+    background: #251239;
+    border: 1px solid #63359b;
+    color: #c77dff;
+    font-size: 11px;
+}
+
+.evidence-btn {
+    background: #24123a;
+    border: 1px solid #63359b;
+    color: white;
+    padding: 7px 11px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.evidence-btn:hover {
+    background: #3a1d5d;
+}
+
+.details {
+    display: none;
+    margin-top: 22px;
+    padding: 20px;
+    background: #1a1028;
+    border: 1px solid #63359b;
+    border-radius: 10px;
+    line-height: 1.7;
+    color: #d1c7db;
+}
+
+@media(max-width: 900px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .container {
+        padding: 20px;
+    }
+}
+
+@media(max-width: 550px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="logo">NETGUARD AI</div>
+
+    <button class="back-btn" onclick="goHome()">
+        ← Back to Dashboard
+    </button>
+
+</div>
+
+<div class="container">
+
+    <div class="tag">SECURITY EVIDENCE</div>
+
+    <h1>Evidence Center</h1>
+
+    <p class="subtitle">
+        Review simulated security observations collected by the
+        NetGuard AI monitoring system.
+    </p>
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-label">TOTAL EVIDENCE</div>
+            <div class="stat-value">24</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">HIGH PRIORITY</div>
+            <div class="stat-value">6</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">ANOMALIES</div>
+            <div class="stat-value">9</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">AI CONFIDENCE</div>
+            <div class="stat-value">87%</div>
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+        <h2>Evidence Records</h2>
+
+        <input
+            type="text"
+            class="search"
+            id="searchBox"
+            placeholder="Search evidence..."
+            onkeyup="filterEvidence()"
+        >
+
+        <div class="table-wrap">
+
+            <table id="evidenceTable">
+
+                <thead>
+                    <tr>
+                        <th>Evidence ID</th>
+                        <th>Event</th>
+                        <th>System</th>
+                        <th>Time</th>
+                        <th>Severity</th>
+                        <th>AI Observation</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>EV-001</td>
+                        <td>Traffic Spike</td>
+                        <td>Endpoint-01</td>
+                        <td>10:42:15</td>
+                        <td>
+                            <span class="badge">High</span>
+                        </td>
+                        <td>Abnormal traffic volume</td>
+                        <td>
+                            <button
+                                class="evidence-btn"
+                                onclick="showDetails('EV-001')">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>EV-002</td>
+                        <td>Connection Anomaly</td>
+                        <td>Router-01</td>
+                        <td>10:44:31</td>
+                        <td>
+                            <span class="badge">High</span>
+                        </td>
+                        <td>Unexpected connection pattern</td>
+                        <td>
+                            <button
+                                class="evidence-btn"
+                                onclick="showDetails('EV-002')">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>EV-003</td>
+                        <td>Database Access</td>
+                        <td>Database-01</td>
+                        <td>10:47:09</td>
+                        <td>
+                            <span class="badge">Critical</span>
+                        </td>
+                        <td>Unusual access behavior</td>
+                        <td>
+                            <button
+                                class="evidence-btn"
+                                onclick="showDetails('EV-003')">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>EV-004</td>
+                        <td>Cloud Request</td>
+                        <td>Cloud-01</td>
+                        <td>10:51:26</td>
+                        <td>
+                            <span class="badge">Medium</span>
+                        </td>
+                        <td>Request frequency changed</td>
+                        <td>
+                            <button
+                                class="evidence-btn"
+                                onclick="showDetails('EV-004')">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>EV-005</td>
+                        <td>Endpoint Alert</td>
+                        <td>Endpoint-02</td>
+                        <td>10:55:48</td>
+                        <td>
+                            <span class="badge">Medium</span>
+                        </td>
+                        <td>Behavior differs from baseline</td>
+                        <td>
+                            <button
+                                class="evidence-btn"
+                                onclick="showDetails('EV-005')">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="details" id="details"></div>
+
+    </div>
+
+</div>
+
+<script>
+
+function goHome() {
+    window.location.href = "homepage.html";
+}
+
+function filterEvidence() {
+
+    const input =
+        document.getElementById("searchBox")
+        .value
+        .toLowerCase();
+
+    const rows =
+        document
+        .getElementById("evidenceTable")
+        .getElementsByTagName("tr");
+
+    for (let i = 1; i < rows.length; i++) {
+
+        const text =
+            rows[i].innerText.toLowerCase();
+
+        if (text.includes(input)) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+}
+
+function showDetails(id) {
+
+    const details =
+        document.getElementById("details");
+
+    details.style.display = "block";
+
+    if (id === "EV-001") {
+
+        details.innerText =
+            "EV-001 — Traffic Spike\n\n" +
+            "System: Endpoint-01\n" +
+            "Observation: Network traffic increased above the simulated baseline.\n" +
+            "AI assessment: High-priority anomaly requiring investigation.";
+
+    }
+
+    else if (id === "EV-002") {
+
+        details.innerText =
+            "EV-002 — Connection Anomaly\n\n" +
+            "System: Router-01\n" +
+            "Observation: An unexpected simulated connection pattern was detected.\n" +
+            "AI assessment: Review the related network activity.";
+
+    }
+
+    else if (id === "EV-003") {
+
+        details.innerText =
+            "EV-003 — Database Access\n\n" +
+            "System: Database-01\n" +
+            "Observation: The access pattern differs from the simulated baseline.\n" +
+            "AI assessment: High-priority evidence for investigation.";
+
+    }
+
+    else if (id === "EV-004") {
+
+        details.innerText =
+            "EV-004 — Cloud Request\n\n" +
+            "System: Cloud-01\n" +
+            "Observation: Request frequency changed during the simulated event.\n" +
+            "AI assessment: Continue monitoring and review related evidence.";
+
+    }
+
+    else if (id === "EV-005") {
+
+        details.innerText =
+            "EV-005 — Endpoint Alert\n\n" +
+            "System: Endpoint-02\n" +
+            "Observation: Observed behavior differs from the simulated baseline.\n" +
+            "AI assessment: Additional investigation may be useful.";
+
+    }
+}
+
+</script>
+
+</body>
+</html>34++++

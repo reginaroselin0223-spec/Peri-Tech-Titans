@@ -1,0 +1,2708 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>NetGuard AI</title>
+
+    <style>
+
+        /* =========================================
+           NETGUARD AI
+           ROYAL PURPLE CYBERSECURITY THEME
+           ========================================= */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #080612;
+            color: #F4F0FF;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================
+           HEADER
+           ========================================= */
+
+        header {
+
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+            border-bottom: 1px solid #30205A;
+
+            background: #0D091A;
+        }
+
+
+        .logo {
+
+            font-size: 22px;
+
+            font-weight: bold;
+
+            letter-spacing: 2px;
+        }
+
+
+        .logo span {
+
+            color: #A855F7;
+        }
+
+
+        .status {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #C084FC;
+
+            font-size: 14px;
+        }
+
+
+        .dot {
+
+            width: 9px;
+
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #A855F7;
+
+            box-shadow:
+                0 0 12px #A855F7;
+        }
+
+
+        /* =========================================
+           MAIN
+           ========================================= */
+
+        main {
+
+            padding: 40px;
+
+            max-width: 1400px;
+
+            width: 100%;
+
+            margin: auto;
+        }
+
+
+        /* =========================================
+           HERO
+           ========================================= */
+
+        .hero {
+
+            margin-bottom: 35px;
+        }
+
+
+        .hero h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .hero h1 span {
+
+            color: #A855F7;
+        }
+
+
+        .hero p {
+
+            color: #A9A0BE;
+
+            font-size: 17px;
+        }
+
+
+        /* =========================================
+           DASHBOARD
+           ========================================= */
+
+        .dashboard {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 2fr)
+                minmax(0, 1fr);
+
+            gap: 25px;
+
+            width: 100%;
+        }
+
+
+        /* =========================================
+           CARDS
+           ========================================= */
+
+        .card {
+
+            min-width: 0;
+
+            background: #100B1F;
+
+            border: 1px solid #30205A;
+
+            border-radius: 14px;
+
+            padding: 25px;
+        }
+
+
+        .card h2 {
+
+            margin-bottom: 20px;
+
+            font-size: 20px;
+        }
+
+
+        /* =========================================
+           UPLOAD AREA
+           ========================================= */
+
+        .upload-box {
+
+            border: 2px dashed #51358A;
+
+            border-radius: 12px;
+
+            padding: 40px;
+
+            text-align: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .upload-box p {
+
+            color: #A9A0BE;
+
+            margin-bottom: 15px;
+        }
+
+
+        input[type="file"] {
+
+            color: #D8D0E8;
+
+            max-width: 100%;
+        }
+
+
+        /* =========================================
+           BUTTON
+           ========================================= */
+
+        button {
+
+            background: #7C3AED;
+
+            color: white;
+
+            border: none;
+
+            padding: 13px 25px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 15px;
+
+            transition: 0.2s;
+
+            font-size: 15px;
+        }
+
+
+        button:hover {
+
+            background: #A855F7;
+
+            box-shadow:
+                0 0 20px
+                rgba(168, 85, 247, 0.4);
+        }
+
+
+        button:active {
+
+            transform: scale(0.98);
+        }
+
+
+        /* =========================================
+           ERROR
+           ========================================= */
+
+        .error {
+
+            color: #F472B6;
+
+            margin-top: 15px;
+
+            min-height: 20px;
+        }
+
+
+        /* =========================================
+           RESULT
+           ========================================= */
+
+        .result {
+
+            margin-top: 25px;
+
+           display: block;
+        }
+
+
+        /* =========================================
+           RISK SCORE
+           ========================================= */
+
+        .risk {
+
+            font-size: 50px;
+
+            font-weight: bold;
+
+            color: #C084FC;
+
+            transition: 0.3s;
+        }
+
+
+        .risk-label {
+
+            color: #A9A0BE;
+
+            margin-bottom: 10px;
+        }
+
+
+        /* =========================================
+           METRICS
+           ========================================= */
+
+        .metric {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            padding: 13px 0;
+
+            border-bottom:
+                1px solid #241A3A;
+        }
+
+
+        .metric span:first-child {
+
+            color: #A9A0BE;
+        }
+
+
+        .metric strong {
+
+            text-align: right;
+
+            word-break: break-word;
+        }
+
+
+        /* =========================================
+           AI EVIDENCE
+           ========================================= */
+
+        .evidence-box {
+
+            margin-top: 30px;
+        }
+
+
+        .evidence-box h2 {
+
+            margin-bottom: 15px;
+        }
+
+
+        #evidence {
+
+            color: #A9A0BE;
+
+            line-height: 1.9;
+
+            font-size: 14px;
+        }
+
+
+        .evidence-item {
+
+    background: #140C27;
+
+    border: 1px solid #30205A;
+
+    border-left: 4px solid #A855F7;
+
+    border-radius: 10px;
+
+    padding: 14px 16px;
+
+    margin-bottom: 10px;
+
+    color: #D8D0E8;
+
+    line-height: 1.5;
+
+    transition: 0.25s ease;
+}
+
+
+.evidence-item:hover {
+
+    border-color: #A855F7;
+
+    background: #1A1030;
+
+    transform: translateX(4px);
+
+    box-shadow:
+        0 0 15px
+        rgba(168, 85, 247, 0.15);
+}
+
+
+.evidence-icon {
+
+    color: #C084FC;
+
+    font-size: 16px;
+
+    margin-right: 8px;
+}
+
+
+.evidence-title {
+
+    display: block;
+
+    color: #C084FC;
+
+    font-weight: bold;
+
+    font-size: 13px;
+
+    margin-bottom: 4px;
+
+    letter-spacing: 0.5px;
+}
+
+
+.evidence-description {
+
+    color: #A9A0BE;
+
+    font-size: 13px;
+}
+        /* =========================================
+           FORECAST
+           ========================================= */
+
+        .forecast-box {
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            background: #140C27;
+
+            border: 1px solid #51358A;
+        }
+
+
+        .forecast-title {
+
+            color: #A9A0BE;
+
+            font-size: 16px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .forecast-probability {
+
+            font-size: 46px;
+
+            font-weight: bold;
+
+            color: #C084FC;
+
+            margin-bottom: 15px;
+
+            transition: 0.3s;
+        }
+
+
+        /* =========================================
+           FORECAST BAR
+           ========================================= */
+
+        .forecast-bar {
+
+            width: 100%;
+
+            height: 10px;
+
+            background: #25183D;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            margin-bottom: 18px;
+        }
+
+
+        .forecast-bar-fill {
+
+            height: 100%;
+
+            width: 0%;
+
+            background: #8B5CF6;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 0 12px
+                rgba(139, 92, 246, 0.6);
+
+            transition:
+                width 0.8s ease,
+                background 0.3s ease;
+        }
+
+
+        .forecast-stage {
+
+            font-size: 24px;
+
+            color: #A855F7;
+
+            margin: 8px 0;
+
+            transition: 0.3s;
+        }
+
+
+        .forecast-window {
+
+            color: #A9A0BE;
+
+            margin-top: 8px;
+        }
+
+
+        /* =========================================
+           SYSTEM INFORMATION
+           ========================================= */
+
+        .system-info {
+
+            margin-top: 25px;
+        }
+
+
+        .system-info h2 {
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================================
+           ATTACK TIMELINE
+           ========================================= */
+
+        .timeline-card {
+
+            margin-top: 25px;
+
+            background: #100B1F;
+
+            border: 1px solid #30205A;
+
+            border-radius: 14px;
+
+            padding: 25px;
+
+            width: 100%;
+        }
+
+
+        .timeline-card h2 {
+
+            margin-bottom: 8px;
+
+            font-size: 20px;
+        }
+
+
+        .timeline-subtitle {
+
+            color: #A9A0BE;
+
+            margin-bottom: 30px;
+        }
+
+
+        .attack-timeline {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            width: 100%;
+        }
+
+
+        .timeline-step {
+
+            flex: 1;
+
+            position: relative;
+
+            text-align: center;
+
+            min-width: 0;
+        }
+
+
+        .timeline-dot {
+
+            width: 16px;
+
+            height: 16px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            background: #29213B;
+
+            border: 2px solid #604A82;
+
+            transition: 0.3s;
+        }
+
+
+        .timeline-step.active .timeline-dot {
+
+            background: #A855F7;
+
+            border-color: #A855F7;
+
+            box-shadow:
+                0 0 15px #A855F7;
+        }
+
+
+        .timeline-step.predicted .timeline-dot {
+
+            background: #7C3AED;
+
+            border-color: #C084FC;
+
+            box-shadow:
+                0 0 15px #7C3AED;
+        }
+
+
+        .timeline-content {
+
+            display: flex;
+
+            flex-direction: column;
+
+            margin-top: 12px;
+
+            gap: 6px;
+        }
+
+
+        .timeline-content strong {
+
+            font-size: 14px;
+        }
+
+
+        .timeline-content span {
+
+            color: #A9A0BE;
+
+            font-size: 11px;
+
+            line-height: 1.4;
+        }
+
+
+        .timeline-line {
+
+            height: 2px;
+
+            flex: 0.5;
+
+            background: #51358A;
+
+            margin-top: 7px;
+
+            transition: 0.3s;
+        }
+
+
+        .timeline-line.active {
+
+            background: #A855F7;
+
+            box-shadow:
+                0 0 8px
+                rgba(168, 85, 247, 0.5);
+        }
+
+
+        /* =========================================
+           THREAT COLORS
+           ========================================= */
+
+        .threat-low {
+
+            color: #22C55E !important;
+        }
+
+
+        .threat-medium {
+
+            color: #F59E0B !important;
+        }
+
+
+        .threat-high {
+
+            color: #EF4444 !important;
+        }
+
+
+        .threat-critical {
+
+            color: #FF1744 !important;
+
+            text-shadow:
+                0 0 12px
+                rgba(255, 23, 68, 0.5);
+        }
+
+
+        /* =========================================
+           MOBILE
+           ========================================= */
+
+        @media (max-width: 900px) {
+
+            .dashboard {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            main {
+
+                padding: 20px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 32px;
+            }
+
+
+            .attack-timeline {
+
+                overflow-x: auto;
+
+                padding-bottom: 15px;
+
+                min-width: 700px;
+            }
+
+
+            .timeline-card {
+
+                overflow-x: auto;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            header {
+
+                padding: 0 18px;
+            }
+
+
+            .status {
+
+                font-size: 11px;
+            }
+
+
+            .logo {
+
+                font-size: 18px;
+            }
+
+
+            .upload-box {
+
+                padding: 25px 15px;
+            }
+
+
+            .metric {
+
+                font-size: 14px;
+            }
+        }
+        /* =========================================
+   ATTACK FORECAST PATH
+   ========================================= */
+
+.attack-path {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #30205A;
+}
+
+
+.path-node {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    gap: 7px;
+
+    color: #6F6485;
+
+    font-size: 10px;
+
+    min-width: 55px;
+
+    transition: 0.3s ease;
+}
+
+
+.path-icon {
+
+    width: 30px;
+
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    border: 1px solid #51358A;
+
+    background: #0D091A;
+
+    color: #6F6485;
+
+    font-weight: bold;
+
+    transition: 0.3s ease;
+}
+
+
+.path-node.active {
+
+    color: #C084FC;
+}
+
+
+.path-node.active .path-icon {
+
+    background: #7C3AED;
+
+    border-color: #A855F7;
+
+    color: white;
+
+    box-shadow:
+        0 0 14px
+        rgba(168, 85, 247, 0.5);
+}
+
+
+.path-node.predicted {
+
+    color: #C084FC;
+}
+
+
+.path-node.predicted .path-icon {
+
+    background: #A855F7;
+
+    border-color: #C084FC;
+
+    color: white;
+
+    box-shadow:
+        0 0 18px
+        rgba(168, 85, 247, 0.7);
+}
+
+
+.path-node.danger {
+
+    color: #EF4444;
+}
+
+
+.path-node.danger .path-icon {
+
+    background: #EF4444;
+
+    border-color: #F87171;
+
+    color: white;
+
+    box-shadow:
+        0 0 18px
+        rgba(239, 68, 68, 0.6);
+}
+
+
+.path-arrow {
+
+    color: #51358A;
+
+    font-size: 18px;
+
+    margin-bottom: 18px;
+
+    transition: 0.3s ease;
+}
+
+
+.path-arrow.active {
+
+    color: #A855F7;
+
+    text-shadow:
+        0 0 8px
+        rgba(168, 85, 247, 0.6);
+}
+
+
+@media (max-width: 600px) {
+
+    .attack-path {
+
+        min-width: 360px;
+    }
+
+}
+
+
+/* =========================
+   NETWORK RISK GAUGE
+   ========================= */
+
+.risk-gauge-section {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 16px;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    text-align: center;
+}
+
+.risk-gauge-section h3 {
+    margin-bottom: 18px;
+    color: #C084FC;
+}
+
+.risk-gauge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gauge-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 12px solid #3B1D68;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle, #171025 55%, #0F0A1A 56%);
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.25);
+    transition: all 0.6s ease;
+    position: relative;
+}
+
+.gauge-circle::before {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2px solid rgba(192, 132, 252, 0.15);
+}
+
+#gaugeScore {
+    font-size: 30px;
+    font-weight: 800;
+    z-index: 2;
+    transition: color 0.6s ease;
+}
+
+#gaugeScore {
+    font-size: 28px;
+    font-weight: bold;
+    color: #C084FC;
+}
+
+.gauge-labels {
+    display: flex;
+    justify-content: space-between;
+    max-width: 300px;
+    margin: 15px auto 0;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.gauge-labels span:nth-child(1) {
+    color: #22C55E;
+}
+
+.gauge-labels span:nth-child(2) {
+    color: #F59E0B;
+}
+
+.gauge-labels span:nth-child(3) {
+    color: #EF4444;
+}
+
+.gauge-labels span:nth-child(4) {
+    color: #FF1744;
+}
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         HEADER
+         ========================================= -->
+
+    <header>
+
+        <div class="logo">
+            NETGUARD <span>AI</span>
+        </div>
+
+
+        <div class="status">
+
+            <div class="dot"></div>
+
+            AI ENGINE ONLINE
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================================
+         MAIN
+         ========================================= -->
+
+    <main>
+
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <h1>
+                See Where the
+                <span>Attack Is Going</span>
+            </h1>
+
+            <p>
+                AI-powered network attack forecasting
+                and behavioral intelligence.
+            </p>
+
+        </section>
+
+
+
+        <!-- =====================================
+             HORIZONTAL DASHBOARD
+             ===================================== -->
+
+        <section class="dashboard">
+
+
+            <!-- =================================
+                 LEFT CARD
+                 NETWORK TRAFFIC
+                 ================================= -->
+
+            <div class="card">
+
+                <h2>
+                    Network Traffic Analysis
+                </h2>
+
+
+                <div class="upload-box">
+
+                    <p>
+                        Upload network traffic data
+                    </p>
+
+
+                    <input
+                        type="file"
+                        id="trafficFile"
+                        accept=".csv"
+                    >
+
+
+                    <br>
+
+
+                    <button
+                        type="button"
+                        onclick="analyzeTraffic()"
+                    >
+                        ANALYZE TRAFFIC
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="errorMessage"
+                    class="error"
+                ></div>
+
+
+
+                <!-- =========================
+                     THREAT ASSESSMENT
+                     ========================= -->
+
+                <div
+                    id="result"
+                    class="result"
+                >
+
+                    <h2>
+                        Threat Assessment
+                    </h2>
+
+
+                    <div
+                        class="risk"
+                        id="riskScore"
+                    >
+                        0
+                    </div>
+
+
+                    <div class="risk-label">
+                        Current Network Risk
+                    </div>
+
+                    <div class="risk-gauge-section">
+    <h3>Network Risk Level</h3>
+
+    <div class="risk-gauge">
+        <div class="gauge-circle">
+            <span id="gaugeScore">0%</span>
+        </div>
+    </div>
+
+    <div class="gauge-labels">
+        <span>LOW</span>
+        <span>MEDIUM</span>
+        <span>HIGH</span>
+        <span>CRITICAL</span>
+    </div>
+</div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Threat Level
+                        </span>
+
+                        <strong id="riskLevel">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Attack Type
+                        </span>
+
+                        <strong id="attackType">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            AI Confidence
+                        </span>
+
+                        <strong id="confidence">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Network Flows
+                        </span>
+
+                        <strong id="flows">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Packets
+                        </span>
+
+                        <strong id="packets">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Unique Destinations
+                        </span>
+
+                        <strong id="destinations">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Unique Ports
+                        </span>
+
+                        <strong id="ports">
+                            -
+                        </strong>
+
+                    </div>
+
+
+
+                    <!-- =========================
+                         AI EVIDENCE
+                         ========================= -->
+
+                    <div class="evidence-box">
+
+                        <h2>
+                            AI Evidence
+                        </h2>
+
+
+                        <div id="evidence">
+
+                            Awaiting analysis...
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 RIGHT CARD
+                 FORECAST
+                 ================================= -->
+
+            <div class="card">
+
+                <h2>
+                    Future Attack Forecast
+                </h2>
+
+
+                <div class="forecast-box">
+
+    <div class="forecast-title">
+        Forecast Probability
+    </div>
+
+    <div
+        class="forecast-probability"
+        id="forecastProbability"
+    >
+        --
+    </div>
+
+    <div class="forecast-bar">
+
+        <div
+            id="forecastBar"
+            class="forecast-bar-fill"
+        ></div>
+
+    </div>
+
+    <div
+        class="forecast-stage"
+        id="forecastStage"
+    >
+        Awaiting Analysis
+    </div>
+
+    <div class="forecast-window">
+
+        Forecast window:
+        <span id="forecastWindow">--</span>
+
+    </div>
+
+    <!-- ATTACK PATH -->
+
+    <div class="attack-path">
+
+        <div class="path-node active">
+
+            <div class="path-icon">
+                ●
+            </div>
+
+            <span>
+                Current Traffic
+            </span>
+
+        </div>
+
+        <div class="path-arrow">
+            →
+        </div>
+
+        <div
+            class="path-node"
+            id="pathSuspicious"
+        >
+
+            <div class="path-icon">
+                ?
+            </div>
+
+            <span>
+                Suspicious
+            </span>
+
+        </div>
+
+        <div class="path-arrow">
+            →
+        </div>
+
+        <div
+            class="path-node"
+            id="pathForecast"
+        >
+
+            <div class="path-icon">
+                ◆
+            </div>
+
+            <span>
+                Forecast
+            </span>
+
+        </div>
+
+        <div class="path-arrow">
+            →
+        </div>
+
+        <div
+            class="path-node"
+            id="pathAttack"
+        >
+
+            <div class="path-icon">
+                !
+            </div>
+
+            <span>
+                Potential Attack
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+                    <div class="forecast-title">
+
+                        Forecast Probability
+
+                    </div>
+
+
+                    <div
+                        class="forecast-probability"
+                        id="forecastProbability"
+                    >
+                        --
+                    </div>
+
+
+                    <div class="forecast-bar">
+
+                        <div
+                            id="forecastBar"
+                            class="forecast-bar-fill"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        class="forecast-stage"
+                        id="forecastStage"
+                    >
+                        Awaiting Analysis
+                    </div>
+
+
+                    <div class="forecast-window">
+
+                        Forecast window:
+
+                        <span id="forecastWindow">
+                            --
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =========================
+                     SYSTEM INFORMATION
+                     ========================= -->
+
+                <div class="system-info">
+
+                    <h2>
+                        System Information
+                    </h2>
+
+
+                    <div class="metric">
+
+                        <span>
+                            AI Engine
+                        </span>
+
+                        <strong>
+                            NetGuard Behavioral Engine
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Operating Mode
+                        </span>
+
+                        <strong>
+                            Offline
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            Backend
+                        </span>
+
+                        <strong>
+                            Python
+                        </strong>
+
+                    </div>
+
+
+                    <div class="metric">
+
+                        <span>
+                            API
+                        </span>
+
+                        <strong>
+                            127.0.0.1:5000
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             ATTACK PROGRESSION TIMELINE
+             ===================================== -->
+
+        <section class="timeline-card">
+
+            <h2>
+                Attack Progression Timeline
+            </h2>
+
+
+            <p class="timeline-subtitle">
+
+                AI-estimated progression of the
+                current network activity
+
+            </p>
+
+
+            <div class="attack-timeline">
+
+
+                <!-- OBSERVED -->
+
+                <div
+                    class="timeline-step active"
+                    id="timelineObserved"
+                >
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-content">
+
+                        <strong>
+                            Observed
+                        </strong>
+
+                        <span>
+                            Network traffic captured
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="timeline-line active"
+                    id="line1"
+                ></div>
+
+
+                <!-- ANALYZED -->
+
+                <div
+                    class="timeline-step active"
+                    id="timelineAnalyzed"
+                >
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-content">
+
+                        <strong>
+                            Analyzed
+                        </strong>
+
+                        <span>
+                            Behavioral patterns detected
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="timeline-line"
+                    id="line2"
+                ></div>
+
+
+                <!-- SUSPICIOUS -->
+
+                <div
+                    class="timeline-step"
+                    id="timelineSuspicious"
+                >
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-content">
+
+                        <strong>
+                            Suspicious
+                        </strong>
+
+                        <span>
+                            Threat indicators evaluated
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="timeline-line"
+                    id="line3"
+                ></div>
+
+
+                <!-- FORECAST -->
+
+                <div
+                    class="timeline-step"
+                    id="timelineForecast"
+                >
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-content">
+
+                        <strong>
+                            Forecast
+                        </strong>
+
+                        <span>
+                            Possible future attack stage
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="timeline-line"
+                    id="line4"
+                ></div>
+
+
+                <!-- POTENTIAL ATTACK -->
+
+                <div
+                    class="timeline-step"
+                    id="timelineAttack"
+                >
+
+                    <div class="timeline-dot"></div>
+
+                    <div class="timeline-content">
+
+                        <strong>
+                            Potential Attack
+                        </strong>
+
+                        <span>
+                            Predicted before compromise
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+         ========================================= -->
+
+    <script>
+
+
+        async function analyzeTraffic() {
+
+
+            /*
+             ========================================
+             GET ELEMENTS
+             ========================================
+            */
+
+            const fileInput =
+                document.getElementById(
+                    "trafficFile"
+                );
+
+
+            const errorMessage =
+                document.getElementById(
+                    "errorMessage"
+                );
+
+
+            const result =
+                document.getElementById(
+                    "result"
+                );
+
+
+            /*
+             ========================================
+             CLEAR PREVIOUS ERROR
+             ========================================
+            */
+
+            errorMessage.innerText = "";
+
+
+
+            /*
+             ========================================
+             CHECK FILE
+             ========================================
+            */
+
+            if (
+                !fileInput ||
+                !fileInput.files.length
+            ) {
+
+                errorMessage.innerText =
+                    "Please select a CSV file first.";
+
+                return;
+            }
+
+
+
+            const file =
+                fileInput.files[0];
+
+
+
+            /*
+             ========================================
+             SHOW ANALYZING STATUS
+             ========================================
+            */
+
+            errorMessage.style.color =
+                "#C084FC";
+
+            errorMessage.innerText =
+                "Analyzing network traffic...";
+
+
+
+            try {
+
+
+                /*
+                 ====================================
+                 READ CSV
+                 ====================================
+                */
+
+                const text =
+                    await file.text();
+
+
+                const rows =
+                    text
+                        .trim()
+                        .split(/\r?\n/);
+
+
+
+                if (rows.length < 2) {
+
+                    throw new Error(
+                        "CSV file does not contain enough data."
+                    );
+
+                }
+
+
+
+                /*
+                 ====================================
+                 CSV HEADERS
+                 ====================================
+                */
+
+                const headers =
+                    rows[0]
+                        .split(",")
+                        .map(
+                            h => h.trim()
+                        );
+
+
+
+                /*
+                 ====================================
+                 CSV → JSON
+                 ====================================
+                */
+
+                const data = [];
+
+
+                for (
+                    let i = 1;
+                    i < rows.length;
+                    i++
+                ) {
+
+
+                    if (
+                        !rows[i].trim()
+                    ) {
+
+                        continue;
+                    }
+
+
+                    const values =
+                        rows[i].split(",");
+
+
+                    const row = {};
+
+
+                    headers.forEach(
+                        (
+                            header,
+                            index
+                        ) => {
+
+                            row[header] =
+                                values[index] !== undefined
+                                    ? values[index].trim()
+                                    : "";
+
+                        }
+                    );
+
+
+                    data.push(row);
+
+                }
+
+
+
+                console.log(
+                    "Sending traffic data:",
+                    data
+                );
+
+
+
+                /*
+                 ====================================
+                 SEND TO PYTHON FLASK
+                 ====================================
+                */
+
+                const response =
+                    await fetch(
+                        "http://127.0.0.1:5000/analyze",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(data)
+
+                        }
+                    );
+
+
+
+                /*
+                 ====================================
+                 READ BACKEND RESPONSE
+                 ====================================
+                */
+
+                let resultData;
+
+
+                try {
+
+                    resultData =
+                        await response.json();
+
+                }
+                catch {
+
+                    throw new Error(
+                        "Backend returned an invalid response."
+                    );
+
+                }
+
+
+
+                console.log(
+                    "NetGuard AI response:",
+                    resultData
+                );
+
+                // Save latest NetGuard AI analysis for other modules
+localStorage.setItem(
+    "netguardAnalysis",
+    JSON.stringify(resultData)
+);
+
+
+
+                /*
+                 ====================================
+                 BACKEND ERROR
+                 ====================================
+                */
+
+                if (!response.ok) {
+
+                    throw new Error(
+
+                        resultData.error ||
+                        resultData.details ||
+                        "Backend analysis failed."
+
+                    );
+
+                }
+
+
+
+                /*
+                 ====================================
+                 SHOW RESULT
+                 ====================================
+                */
+
+                result.style.display =
+                    "block";
+
+
+
+                /*
+                 ====================================
+                 RISK SCORE
+                 ====================================
+                */
+
+                const riskScoreElement =
+                    document.getElementById(
+                        "riskScore"
+                    );
+
+
+                const riskScore =
+                    Number(
+                        resultData.risk.score
+                    ) || 0;
+
+                    // Update Network Risk Gauge
+
+
+
+                riskScoreElement.innerText =
+                    riskScore;
+
+
+
+                /*
+                 ====================================
+                 THREAT LEVEL
+                 ====================================
+                */
+
+                const riskLevelElement =
+                    document.getElementById(
+                        "riskLevel"
+                    );
+
+
+                const level =
+                    String(
+                        resultData.risk.level || "-"
+                    ).toUpperCase();
+
+                    // Update Network Risk Gauge
+const gaugeScore = document.getElementById("gaugeScore");
+const gaugeCircle = document.querySelector(".gauge-circle");
+
+// Animate risk score
+// Animate risk score
+let currentScore = 0;
+
+const animateGauge = setInterval(() => {
+    currentScore += 1;
+
+    if (currentScore >= riskScore) {
+        currentScore = riskScore;
+        clearInterval(animateGauge);
+    }
+
+    gaugeScore.innerText = currentScore + "%";
+}, 80);
+if (level === "LOW") {
+    gaugeScore.style.color = "#22C55E";
+    gaugeCircle.style.borderColor = "#22C55E";
+    gaugeCircle.style.boxShadow = "0 0 25px rgba(34, 197, 94, 0.35)";
+}
+else if (level === "MEDIUM") {
+    gaugeScore.style.color = "#F59E0B";
+    gaugeCircle.style.borderColor = "#F59E0B";
+    gaugeCircle.style.boxShadow = "0 0 25px rgba(245, 158, 11, 0.35)";
+}
+else if (level === "HIGH") {
+    gaugeScore.style.color = "#EF4444";
+    gaugeCircle.style.borderColor = "#EF4444";
+    gaugeCircle.style.boxShadow = "0 0 25px rgba(239, 68, 68, 0.35)";
+}
+else if (level === "CRITICAL") {
+    gaugeScore.style.color = "#FF1744";
+    gaugeCircle.style.borderColor = "#FF1744";
+    gaugeCircle.style.boxShadow = "0 0 30px rgba(255, 23, 68, 0.45)";
+}
+
+
+                riskLevelElement.innerText =
+                    level;
+
+
+                riskLevelElement.className =
+                    "";
+
+
+                riskScoreElement.className =
+                    "risk";
+
+
+
+                if (level === "LOW") {
+
+                    riskLevelElement.classList.add(
+                        "threat-low"
+                    );
+
+                    riskScoreElement.classList.add(
+                        "threat-low"
+                    );
+
+                }
+
+                else if (level === "MEDIUM") {
+
+                    riskLevelElement.classList.add(
+                        "threat-medium"
+                    );
+
+                    riskScoreElement.classList.add(
+                        "threat-medium"
+                    );
+
+                }
+
+                else if (level === "HIGH") {
+
+                    riskLevelElement.classList.add(
+                        "threat-high"
+                    );
+
+                    riskScoreElement.classList.add(
+                        "threat-high"
+                    );
+
+                }
+
+                else if (
+                    level === "CRITICAL"
+                ) {
+
+                    riskLevelElement.classList.add(
+                        "threat-critical"
+                    );
+
+                    riskScoreElement.classList.add(
+                        "threat-critical"
+                    );
+
+                }
+
+
+
+                /*
+                 ====================================
+                 ATTACK TYPE
+                 ====================================
+                */
+
+                document.getElementById(
+                    "attackType"
+                ).innerText =
+
+                    resultData.risk.attack_type
+                    || "Unknown";
+
+
+
+                /*
+                 ====================================
+                 AI CONFIDENCE
+                 ====================================
+                */
+
+                document.getElementById(
+                    "confidence"
+                ).innerText =
+
+                    (
+                        resultData.risk.confidence
+                        ?? 0
+                    ) + "%";
+
+
+
+                /*
+                 ====================================
+                 TRAFFIC INFORMATION
+                 ====================================
+                */
+
+                document.getElementById(
+                    "flows"
+                ).innerText =
+
+                    resultData.traffic.flows
+                    ?? 0;
+
+
+                document.getElementById(
+                    "packets"
+                ).innerText =
+
+                    resultData.traffic.packets
+                    ?? 0;
+
+
+                document.getElementById(
+                    "destinations"
+                ).innerText =
+
+                    resultData
+                        .traffic
+                        .unique_destinations
+                    ?? 0;
+
+
+                document.getElementById(
+                    "ports"
+                ).innerText =
+
+                    resultData
+                        .traffic
+                        .unique_ports
+                    ?? 0;
+
+
+
+                /*
+                 ====================================
+                 AI EVIDENCE
+                 ====================================
+                */
+
+                const evidenceElement =
+                    document.getElementById(
+                        "evidence"
+                    );
+
+
+                if (
+    resultData.evidence &&
+    resultData.evidence.length > 0
+) {
+
+    evidenceElement.innerHTML =
+
+        resultData.evidence
+
+            .map(
+                (item, index) => {
+
+                    let title;
+
+                    if (index === 0) {
+                        title = "TRAFFIC ANOMALY";
+                    }
+                    else if (index === 1) {
+                        title = "BEHAVIORAL INDICATOR";
+                    }
+                    else {
+                        title = "AI DETECTION";
+                    }
+
+                    return `
+                        <div class="evidence-item">
+
+                            <span class="evidence-title">
+                                <span class="evidence-icon">◆</span>
+                                ${title}
+                            </span>
+
+                            <span class="evidence-description">
+                                ${item}
+                            </span>
+
+                        </div>
+                    `;
+                }
+            )
+
+            .join("");
+
+}
+else {
+
+    evidenceElement.innerHTML = `
+
+        <div class="evidence-item">
+
+            <span class="evidence-title">
+                <span class="evidence-icon">✓</span>
+                NO SIGNIFICANT THREATS
+            </span>
+
+            <span class="evidence-description">
+                No significant threat indicators
+                detected in the analyzed traffic.
+            </span>
+
+        </div>
+
+    `;
+
+}
+
+
+
+                /*
+                 ====================================
+                 FORECAST
+                 ====================================
+                */
+
+                const forecast =
+                    resultData.forecast
+                    || {};
+
+
+                const probability =
+                    Math.max(
+                        0,
+                        Math.min(
+                            100,
+                            Number(
+                                forecast.probability
+                            ) || 0
+                        )
+                    );
+
+
+
+                document.getElementById(
+                    "forecastProbability"
+                ).innerText =
+                    probability + "%";
+
+
+
+                document.getElementById(
+                    "forecastBar"
+                ).style.width =
+                    probability + "%";
+
+
+
+                document.getElementById(
+                    "forecastStage"
+                ).innerText =
+
+                    forecast.predicted_stage
+                    || "Normal Network Behavior";
+
+
+
+                document.getElementById(
+                    "forecastWindow"
+                ).innerText =
+
+                    forecast.forecast_window
+                    || "20+ minutes";
+
+
+
+                /*
+                 ====================================
+                 FORECAST COLOR
+                 ====================================
+                */
+
+                const forecastProbabilityElement =
+                    document.getElementById(
+                        "forecastProbability"
+                    );
+
+
+                const forecastBar =
+                    document.getElementById(
+                        "forecastBar"
+                    );
+
+
+                const forecastStage =
+                    document.getElementById(
+                        "forecastStage"
+                    );
+
+
+                if (probability < 35) {
+
+                    forecastProbabilityElement.style.color =
+                        "#22C55E";
+
+                    forecastBar.style.background =
+                        "#22C55E";
+
+                    forecastStage.style.color =
+                        "#22C55E";
+
+                }
+
+                else if (probability < 70) {
+
+                    forecastProbabilityElement.style.color =
+                        "#F59E0B";
+
+                    forecastBar.style.background =
+                        "#F59E0B";
+
+                    forecastStage.style.color =
+                        "#F59E0B";
+
+                }
+
+                else {
+
+                    forecastProbabilityElement.style.color =
+                        "#EF4444";
+
+                    forecastBar.style.background =
+                        "#EF4444";
+
+                    forecastStage.style.color =
+                        "#EF4444";
+
+                }
+
+
+
+                /*
+                 ====================================
+                 UPDATE TIMELINE
+                 ====================================
+                */
+
+                updateTimeline(
+                    level,
+                    probability
+                );
+
+
+
+                /*
+                 ====================================
+                 SUCCESS MESSAGE
+                 ====================================
+                */
+
+                errorMessage.style.color =
+                    "#22C55E";
+
+                errorMessage.innerText =
+                    "Analysis completed successfully.";
+
+
+            }
+
+
+            catch (error) {
+
+
+                console.error(
+                    "NetGuard AI error:",
+                    error
+                );
+
+
+                errorMessage.style.color =
+                    "#F472B6";
+
+
+                errorMessage.innerText =
+                    "Error: " +
+                    error.message;
+
+            }
+
+        }
+
+
+
+        /*
+         =========================================
+         TIMELINE UPDATE
+         =========================================
+        */
+
+        function updateTimeline(
+            level,
+            probability
+        ) {
+
+
+            const suspicious =
+                document.getElementById(
+                    "timelineSuspicious"
+                );
+
+
+            const forecast =
+                document.getElementById(
+                    "timelineForecast"
+                );
+
+
+            const attack =
+                document.getElementById(
+                    "timelineAttack"
+                );
+
+
+            const line2 =
+                document.getElementById(
+                    "line2"
+                );
+
+
+            const line3 =
+                document.getElementById(
+                    "line3"
+                );
+
+
+            const line4 =
+                document.getElementById(
+                    "line4"
+                );
+
+                const pathSuspicious =
+    document.getElementById("pathSuspicious");
+
+const pathForecast =
+    document.getElementById("pathForecast");
+
+const pathAttack =
+    document.getElementById("pathAttack");
+
+
+            /*
+             ======================================
+             RESET
+             ======================================
+            */
+pathSuspicious.classList.remove(
+    "predicted",
+    "danger"
+);
+
+pathForecast.classList.remove(
+    "predicted",
+    "danger"
+);
+
+pathAttack.classList.remove(
+    "predicted",
+    "danger"
+);
+            suspicious.classList.remove(
+                "active",
+                "predicted"
+            );
+
+
+            forecast.classList.remove(
+                "active",
+                "predicted"
+            );
+
+
+            attack.classList.remove(
+                "active",
+                "predicted"
+            );
+
+
+            line2.classList.remove(
+                "active"
+            );
+
+
+            line3.classList.remove(
+                "active"
+            );
+
+
+            line4.classList.remove(
+                "active"
+            );
+
+
+
+            /*
+             ======================================
+             MEDIUM+
+             ======================================
+            */
+
+            if (
+                probability >= 35
+            ) {
+
+                suspicious.classList.add(
+                    "active"
+                );
+
+                line2.classList.add(
+                    "active"
+                );
+
+            }
+
+
+
+            /*
+             ======================================
+             HIGH+
+             ======================================
+            */
+
+            if (
+                probability >= 70 ||
+                level === "HIGH" ||
+                level === "CRITICAL"
+            ) {
+
+                forecast.classList.add(
+                    "predicted"
+                );
+
+                line3.classList.add(
+                    "active"
+                );
+
+            }
+
+
+
+            /*
+             ======================================
+             CRITICAL
+             ======================================
+            */
+
+            if (
+                probability >= 85 ||
+                level === "CRITICAL"
+            ) {
+
+                attack.classList.add(
+                    "predicted"
+                );
+
+                line4.classList.add(
+                    "active"
+                );
+
+            }
+
+        }
+
+
+
+        /*
+         =========================================
+         MAKE FUNCTION AVAILABLE TO BUTTON
+         =========================================
+        */
+
+        window.analyzeTraffic =
+            analyzeTraffic;
+
+
+    </script>
+
+
+</body>
+
+</html>

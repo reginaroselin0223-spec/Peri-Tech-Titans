@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetGuard AI - Explain AI</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0d0818;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.header {
+    height: 72px;
+    background: #120b20;
+    border-bottom: 1px solid #34204d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.logo {
+    color: #c77dff;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.back-btn {
+    background: #24123a;
+    color: white;
+    border: 1px solid #63359b;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: #3a1d5d;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 35px;
+}
+
+.tag {
+    display: inline-block;
+    background: #251239;
+    color: #c77dff;
+    border: 1px solid #60369a;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #a99bb8;
+    margin-bottom: 30px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 22px;
+}
+
+.panel {
+    background: #130c1f;
+    border: 1px solid #34204d;
+    border-radius: 14px;
+    padding: 24px;
+}
+
+.panel h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.detection {
+    background: #1a1028;
+    border: 1px solid #493064;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 22px;
+}
+
+.detection-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.detection-text {
+    color: #aaa0b8;
+    line-height: 1.6;
+}
+
+.confidence {
+    margin-top: 20px;
+}
+
+.confidence-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.bar {
+    height: 9px;
+    background: #28183a;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    width: 87%;
+    height: 100%;
+    background: #a855f7;
+}
+
+.factor {
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #190f27;
+    border: 1px solid #302044;
+    border-radius: 9px;
+}
+
+.factor-title {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.factor-text {
+    color: #a99db4;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.score {
+    text-align: center;
+    padding: 25px;
+    background: #1a1028;
+    border-radius: 10px;
+    border: 1px solid #493064;
+    margin-bottom: 20px;
+}
+
+.score-number {
+    font-size: 46px;
+    font-weight: bold;
+    color: #c77dff;
+}
+
+.score-label {
+    color: #a99db4;
+    margin-top: 5px;
+}
+
+.recommendation {
+    background: #1b1029;
+    border: 1px solid #63359b;
+    border-radius: 10px;
+    padding: 20px;
+    line-height: 1.7;
+    color: #d1c7db;
+}
+
+.action-btn {
+    width: 100%;
+    margin-top: 18px;
+    padding: 12px;
+    border: 1px solid #7542ad;
+    border-radius: 8px;
+    background: #28143f;
+    color: white;
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    background: #3b1d5c;
+}
+
+@media(max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="logo">NETGUARD AI</div>
+
+    <button class="back-btn" onclick="goHome()">
+        ← Back to Dashboard
+    </button>
+
+</div>
+
+<div class="container">
+
+    <div class="tag">EXPLAINABLE AI ENGINE</div>
+
+    <h1>Explain AI</h1>
+
+    <p class="subtitle">
+        Understand why the AI system classified a simulated network event
+        as suspicious.
+    </p>
+
+    <div class="grid">
+
+        <!-- LEFT SIDE -->
+
+        <div>
+
+            <div class="panel">
+
+                <h2>AI Detection</h2>
+
+                <div class="detection">
+
+                    <div class="detection-title">
+                        Suspicious Network Activity
+                    </div>
+
+                    <div class="detection-text">
+                        NetGuard AI identified an unusual traffic pattern
+                        that differs from the monitored baseline.
+                    </div>
+
+                    <div class="confidence">
+
+                        <div class="confidence-label">
+                            <span>AI Confidence</span>
+                            <span>87%</span>
+                        </div>
+
+                        <div class="bar">
+                            <div class="bar-fill"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <h2>Key Detection Factors</h2>
+
+                <div class="factor">
+
+                    <div class="factor-title">
+                        📈 Traffic Anomaly
+                    </div>
+
+                    <div class="factor-text">
+                        Network traffic increased significantly compared
+                        with the simulated normal baseline.
+                    </div>
+
+                </div>
+
+                <div class="factor">
+
+                    <div class="factor-title">
+                        🔗 Connection Pattern
+                    </div>
+
+                    <div class="factor-text">
+                        A connection sequence was observed that does not
+                        match the expected simulated network behavior.
+                    </div>
+
+                </div>
+
+                <div class="factor">
+
+                    <div class="factor-title">
+                        🗄️ Resource Access
+                    </div>
+
+                    <div class="factor-text">
+                        The simulated event included an unusual access
+                        pattern involving a monitored database.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDE -->
+
+        <div>
+
+            <div class="panel">
+
+                <h2>Risk Assessment</h2>
+
+                <div class="score">
+
+                    <div class="score-number" id="riskScore">
+                        87
+                    </div>
+
+                    <div class="score-label">
+                        Risk Score
+                    </div>
+
+                </div>
+
+                <div class="detection">
+
+                    <div class="detection-title">
+                        High Risk
+                    </div>
+
+                    <div class="detection-text">
+                        The simulated event requires investigation because
+                        multiple indicators were detected together.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="panel" style="margin-top:22px;">
+
+                <h2>Recommended Action</h2>
+
+                <div class="recommendation" id="recommendation">
+
+                    Review the affected endpoint and investigate the
+                    unusual traffic pattern before allowing normal
+                    activity to continue.
+
+                </div>
+
+                <button
+                    class="action-btn"
+                    onclick="showAnalysis()">
+                    🧠 Generate AI Explanation
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function goHome() {
+    window.location.href = "homepage.html";
+}
+
+function showAnalysis() {
+
+    document.getElementById("recommendation").innerText =
+        "AI explanation complete: the detection was primarily influenced " +
+        "by abnormal traffic volume, an unexpected connection pattern, " +
+        "and unusual simulated database access. These factors collectively " +
+        "increased the calculated risk score.";
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetGuard AI - Decision Room</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0d0818;
+    color: white;
+    min-height: 100vh;
+}
+
+.header {
+    height: 72px;
+    background: #120b20;
+    border-bottom: 1px solid #34204d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.logo {
+    color: #c77dff;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.back-btn {
+    background: #24123a;
+    color: white;
+    border: 1px solid #63359b;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: #3a1d5d;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 35px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: #251239;
+    color: #c77dff;
+    border: 1px solid #60369a;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #a99bb8;
+    margin-bottom: 30px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 22px;
+}
+
+.panel {
+    background: #130c1f;
+    border: 1px solid #34204d;
+    border-radius: 14px;
+    padding: 24px;
+}
+
+.panel h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.threat {
+    background: #1a1028;
+    border: 1px solid #493064;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 22px;
+}
+
+.threat-title {
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.threat-text {
+    color: #aaa0b8;
+    line-height: 1.6;
+}
+
+.risk {
+    text-align: center;
+    padding: 25px;
+    background: #1a1028;
+    border: 1px solid #493064;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.risk-number {
+    font-size: 48px;
+    font-weight: bold;
+    color: #c77dff;
+}
+
+.risk-label {
+    color: #a99db4;
+    margin-top: 5px;
+}
+
+.recommendation {
+    background: #1b1029;
+    border: 1px solid #63359b;
+    border-radius: 10px;
+    padding: 20px;
+    line-height: 1.7;
+    color: #d1c7db;
+}
+
+.option {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 9px;
+    background: #190f27;
+    color: white;
+    border: 1px solid #3a2650;
+    cursor: pointer;
+    text-align: left;
+}
+
+.option:hover {
+    background: #28143f;
+    border-color: #7542ad;
+}
+
+.option-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.option-text {
+    color: #9f93aa;
+    font-size: 13px;
+}
+
+.selected {
+    border-color: #a855f7;
+    background: #251239;
+}
+
+.result {
+    display: none;
+    margin-top: 18px;
+    padding: 16px;
+    background: #1b1029;
+    border: 1px solid #63359b;
+    border-radius: 9px;
+    line-height: 1.6;
+    color: #d1c7db;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid #302044;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    color: #968a9f;
+}
+
+.summary-value {
+    font-weight: bold;
+}
+
+.ai-box {
+    margin-top: 22px;
+    background: #1b1029;
+    border: 1px solid #63359b;
+    border-radius: 10px;
+    padding: 18px;
+    line-height: 1.6;
+    color: #d1c7db;
+}
+
+@media(max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+    <div class="logo">NETGUARD AI</div>
+
+    <button class="back-btn" onclick="goHome()">
+        ← Back to Dashboard
+    </button>
+
+</div>
+
+<div class="container">
+
+    <div class="tag">AI DECISION SUPPORT</div>
+
+    <h1>Decision Room</h1>
+
+    <p class="subtitle">
+        Evaluate a simulated security situation and select an appropriate
+        defensive response.
+    </p>
+
+    <div class="grid">
+
+        <!-- LEFT -->
+
+        <div>
+
+            <div class="panel">
+
+                <h2>Current Threat Situation</h2>
+
+                <div class="threat">
+
+                    <div class="threat-title">
+                        Suspicious Network Activity
+                    </div>
+
+                    <div class="threat-text">
+                        NetGuard AI has detected a simulated abnormal traffic
+                        pattern involving an endpoint, router, and database.
+                        The situation requires investigation and monitoring.
+                    </div>
+
+                </div>
+
+                <h2>AI Recommendation</h2>
+
+                <div class="recommendation">
+
+                    The AI system recommends investigating the affected
+                    endpoint and reviewing the related network connections
+                    before restoring normal activity.
+
+                </div>
+
+                <div class="ai-box" id="aiMessage">
+
+                    AI decision engine is ready. Select a response option
+                    to evaluate the simulated decision.
+
+                </div>
+
+            </div>
+
+            <div class="panel" style="margin-top:22px;">
+
+                <h2>Select Response</h2>
+
+                <button class="option" onclick="chooseOption(this, 'Monitor')">
+
+                    <div class="option-title">
+                        👁 Continue Monitoring
+                    </div>
+
+                    <div class="option-text">
+                        Continue observing the simulated network activity
+                        and collect additional evidence.
+                    </div>
+
+                </button>
+
+                <button class="option" onclick="chooseOption(this, 'Investigate')">
+
+                    <div class="option-title">
+                        🔍 Investigate Event
+                    </div>
+
+                    <div class="option-text">
+                        Investigate the affected systems and review the
+                        available simulated evidence.
+                    </div>
+
+                </button>
+
+                <button class="option" onclick="chooseOption(this, 'Contain')">
+
+                    <div class="option-title">
+                        🛡️ Containment Review
+                    </div>
+
+                    <div class="option-text">
+                        Review containment measures for the simulated
+                        affected endpoint.
+                    </div>
+
+                </button>
+
+                <div class="result" id="decisionResult"></div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div>
+
+            <div class="panel">
+
+                <h2>Risk Assessment</h2>
+
+                <div class="risk">
+
+                    <div class="risk-number">
+                        87
+                    </div>
+
+                    <div class="risk-label">
+                        Simulated Risk Score
+                    </div>
+
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">Threat</span>
+                    <span class="summary-value">Detected</span>
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">Confidence</span>
+                    <span class="summary-value">87%</span>
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">Affected Area</span>
+                    <span class="summary-value">Internal Network</span>
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">Priority</span>
+                    <span class="summary-value">High</span>
+                </div>
+
+            </div>
+
+            <div class="panel" style="margin-top:22px;">
+
+                <h2>Decision Summary</h2>
+
+                <div class="summary-item">
+                    <span class="summary-label">Selected Action</span>
+                    <span
+                        class="summary-value"
+                        id="selectedAction">
+                        None
+                    </span>
+                </div>
+
+                <div class="summary-item">
+                    <span class="summary-label">AI Status</span>
+                    <span
+                        class="summary-value"
+                        id="aiStatus">
+                        Waiting
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function goHome() {
+    window.location.href = "homepage.html";
+}
+
+function chooseOption(button, action) {
+
+    const options = document.querySelectorAll(".option");
+
+    options.forEach(function(option) {
+        option.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+
+    document.getElementById("selectedAction").innerText = action;
+
+    document.getElementById("aiStatus").innerText =
+        "Decision Evaluated";
+
+    const result = document.getElementById("decisionResult");
+
+    result.style.display = "block";
+
+    if (action === "Monitor") {
+
+        result.innerText =
+            "AI assessment: monitoring may provide additional evidence, " +
+            "but the current simulated risk level suggests that investigation " +
+            "should not be delayed.";
+
+        document.getElementById("aiMessage").innerText =
+            "The selected option provides visibility into the event. " +
+            "AI recommends continuing investigation while monitoring activity.";
+
+    }
+
+    else if (action === "Investigate") {
+
+        result.innerText =
+            "AI assessment: investigation is the preferred simulated response. " +
+            "Review the affected endpoint, traffic pattern, and database activity.";
+
+        document.getElementById("aiMessage").innerText =
+            "AI assessment favors investigation because multiple simulated " +
+            "indicators contributed to the elevated risk score.";
+
+    }
+
+    else if (action === "Contain") {
+
+        result.innerText =
+            "AI assessment: containment should be considered when investigation " +
+            "confirms that the affected endpoint represents an active risk.";
+
+        document.getElementById("aiMessage").innerText =
+            "AI recommends reviewing containment as a precaution while " +
+            "preserving enough evidence for investigation.";
+    }
+
+}
+
+</script>
+
+</body>
+</html>

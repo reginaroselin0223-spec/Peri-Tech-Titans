@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetGuard AI - Attack Replay</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #0d0818;
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+.header {
+    height: 72px;
+    background: #120b20;
+    border-bottom: 1px solid #34204d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #c77dff;
+    letter-spacing: 1px;
+}
+
+.back-btn {
+    background: #24123a;
+    color: white;
+    border: 1px solid #63359b;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.back-btn:hover {
+    background: #3a1d5d;
+}
+
+.container {
+    padding: 35px;
+    max-width: 1400px;
+    margin: auto;
+}
+
+.tag {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: #251239;
+    color: #c77dff;
+    border: 1px solid #60369a;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 14px;
+}
+
+h1 {
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #a99bb8;
+    margin-bottom: 30px;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 22px;
+}
+
+.panel {
+    background: #130c1f;
+    border: 1px solid #34204d;
+    border-radius: 14px;
+    padding: 24px;
+}
+
+.panel h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.timeline {
+    position: relative;
+    height: 270px;
+    background:
+        linear-gradient(rgba(120,70,170,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120,70,170,.08) 1px, transparent 1px);
+    background-size: 35px 35px;
+    border: 1px solid #302044;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.network-line {
+    position: absolute;
+    top: 50%;
+    left: 7%;
+    right: 7%;
+    height: 3px;
+    background: #63359b;
+}
+
+.node {
+    position: absolute;
+    top: calc(50% - 19px);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #241238;
+    border: 2px solid #a855f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    z-index: 2;
+}
+
+.node1 { left: 6%; }
+.node2 { left: 31%; }
+.node3 { left: 56%; }
+.node4 { right: 6%; }
+
+.node-label {
+    position: absolute;
+    top: calc(50% + 30px);
+    transform: translateX(-50%);
+    color: #aaa0b8;
+    font-size: 12px;
+}
+
+.label1 { left: 7%; }
+.label2 { left: 32%; }
+.label3 { left: 57%; }
+.label4 { right: 3%; }
+
+.attack-marker {
+    position: absolute;
+    top: 35%;
+    left: 20%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5c8a;
+    box-shadow: 0 0 15px #ff5c8a;
+    display: none;
+}
+
+.attack-pulse {
+    position: absolute;
+    top: 32%;
+    left: 18%;
+    width: 45px;
+    height: 45px;
+    border: 2px solid #ff5c8a;
+    border-radius: 50%;
+    display: none;
+}
+
+.status-box {
+    background: #1a1028;
+    border: 1px solid #3c2555;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 18px;
+}
+
+.status-title {
+    color: #9d8aaa;
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.status-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.control-btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid #6d3da3;
+    background: #251239;
+    color: white;
+    cursor: pointer;
+}
+
+.control-btn:hover {
+    background: #3b1d5c;
+}
+
+.play-btn {
+    background: #713bb3;
+    border-color: #9c5de0;
+}
+
+.events {
+    margin-top: 22px;
+}
+
+.event {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 9px;
+    background: #190f27;
+    border: 1px solid #302044;
+}
+
+.event-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ff5c8a;
+}
+
+.event-info {
+    flex: 1;
+}
+
+.event-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.event-time {
+    color: #93869f;
+    font-size: 12px;
+}
+
+.ai-box {
+    border: 1px solid #63359b;
+    background: #1b1029;
+    border-radius: 10px;
+    padding: 18px;
+    line-height: 1.6;
+    color: #cfc5d9;
+}
+
+.progress {
+    height: 8px;
+    background: #28183a;
+    border-radius: 10px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #a855f7;
+    transition: width .5s;
+}
+
+@media(max-width: 900px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="logo">NETGUARD AI</div>
+
+    <button class="back-btn" onclick="goHome()">
+        ← Back to Dashboard
+    </button>
+</div>
+
+<div class="container">
+
+    <div class="tag">ATTACK REPLAY ENGINE</div>
+
+    <h1>Attack Replay</h1>
+
+    <p class="subtitle">
+        Review simulated network events and observe how an attack could propagate
+        through monitored infrastructure.
+    </p>
+
+    <div class="dashboard">
+
+        <div>
+
+            <div class="panel">
+
+                <h2>Network Event Replay</h2>
+
+                <div class="timeline">
+
+                    <div class="network-line"></div>
+
+                    <div class="node node1">PC</div>
+                    <div class="node node2">R</div>
+                    <div class="node node3">DB</div>
+                    <div class="node node4">☁</div>
+
+                    <div class="node-label label1">Endpoint</div>
+                    <div class="node-label label2">Router</div>
+                    <div class="node-label label3">Database</div>
+                    <div class="node-label label4">Cloud</div>
+
+                    <div class="attack-marker" id="attackMarker"></div>
+                    <div class="attack-pulse" id="attackPulse"></div>
+
+                </div>
+
+                <div class="controls">
+
+                    <button
+                        class="control-btn play-btn"
+                        onclick="startReplay()">
+                        ▶ Play Replay
+                    </button>
+
+                    <button
+                        class="control-btn"
+                        onclick="pauseReplay()">
+                        ⏸ Pause
+                    </button>
+
+                    <button
+                        class="control-btn"
+                        onclick="resetReplay()">
+                        ↻ Reset
+                    </button>
+
+                </div>
+
+                <div class="progress">
+                    <div
+                        class="progress-bar"
+                        id="progressBar">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="panel events">
+
+                <h2>Detected Events</h2>
+
+                <div class="event">
+                    <div class="event-dot"></div>
+
+                    <div class="event-info">
+                        <div class="event-title">
+                            Unusual Traffic Detected
+                        </div>
+
+                        <div class="event-time">
+                            T+02:14 — Endpoint
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event">
+                    <div class="event-dot"></div>
+
+                    <div class="event-info">
+                        <div class="event-title">
+                            Suspicious Connection
+                        </div>
+
+                        <div class="event-time">
+                            T+03:42 — Router
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event">
+                    <div class="event-dot"></div>
+
+                    <div class="event-info">
+                        <div class="event-title">
+                            Database Access Anomaly
+                        </div>
+
+                        <div class="event-time">
+                            T+05:18 — Database
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div>
+
+            <div class="panel">
+
+                <h2>Replay Status</h2>
+
+                <div class="status-box">
+                    <div class="status-title">
+                        CURRENT EVENT
+                    </div>
+
+                    <div
+                        class="status-value"
+                        id="currentEvent">
+                        Ready
+                    </div>
+                </div>
+
+                <div class="status-box">
+                    <div class="status-title">
+                        REPLAY PROGRESS
+                    </div>
+
+                    <div
+                        class="status-value"
+                        id="progressText">
+                        0%
+                    </div>
+                </div>
+
+                <div class="status-box">
+                    <div class="status-title">
+                        RISK STATE
+                    </div>
+
+                    <div
+                        class="status-value"
+                        id="riskState">
+                        Monitoring
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="panel" style="margin-top:22px;">
+
+                <h2>AI Analysis</h2>
+
+                <div class="ai-box" id="aiAnalysis">
+                    AI replay engine is ready.
+                    Start the replay to analyze the simulated
+                    network sequence.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let replayTimer = null;
+let progress = 0;
+
+function goHome() {
+    window.location.href = "homepage.html";
+}
+
+function startReplay() {
+
+    if (replayTimer !== null) {
+        return;
+    }
+
+    const marker = document.getElementById("attackMarker");
+    const pulse = document.getElementById("attackPulse");
+
+    marker.style.display = "block";
+    pulse.style.display = "block";
+
+    replayTimer = setInterval(function() {
+
+        progress += 5;
+
+        if (progress <= 25) {
+
+            document.getElementById("currentEvent").innerText =
+                "Traffic Spike";
+
+            document.getElementById("riskState").innerText =
+                "Elevated";
+
+            document.getElementById("aiAnalysis").innerText =
+                "AI detected an unusual increase in network traffic originating from an endpoint.";
+
+        }
+        else if (progress <= 50) {
+
+            document.getElementById("currentEvent").innerText =
+                "Suspicious Connection";
+
+            document.getElementById("riskState").innerText =
+                "High";
+
+            document.getElementById("aiAnalysis").innerText =
+                "The replay indicates suspicious communication moving toward the internal router.";
+
+        }
+        else if (progress <= 75) {
+
+            document.getElementById("currentEvent").innerText =
+                "Database Anomaly";
+
+            document.getElementById("riskState").innerText =
+                "Critical";
+
+            document.getElementById("aiAnalysis").innerText =
+                "AI identified an abnormal access pattern involving the simulated database.";
+
+        }
+        else {
+
+            document.getElementById("currentEvent").innerText =
+                "Attack Contained";
+
+            document.getElementById("riskState").innerText =
+                "Contained";
+
+            document.getElementById("aiAnalysis").innerText =
+                "Replay completed. The simulated attack path was detected and marked for investigation.";
+        }
+
+        document.getElementById("progressBar").style.width =
+            progress + "%";
+
+        document.getElementById("progressText").innerText =
+            progress + "%";
+
+        if (progress >= 100) {
+            clearInterval(replayTimer);
+            replayTimer = null;
+        }
+
+    }, 500);
+}
+
+function pauseReplay() {
+
+    if (replayTimer !== null) {
+        clearInterval(replayTimer);
+        replayTimer = null;
+    }
+
+    document.getElementById("currentEvent").innerText =
+        "Paused";
+}
+
+function resetReplay() {
+
+    clearInterval(replayTimer);
+    replayTimer = null;
+
+    progress = 0;
+
+    document.getElementById("progressBar").style.width = "0%";
+    document.getElementById("progressText").innerText = "0%";
+
+    document.getElementById("currentEvent").innerText = "Ready";
+    document.getElementById("riskState").innerText = "Monitoring";
+
+    document.getElementById("aiAnalysis").innerText =
+        "AI replay engine is ready. Start the replay to analyze the simulated network sequence.";
+
+    document.getElementById("attackMarker").style.display = "none";
+    document.getElementById("attackPulse").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>

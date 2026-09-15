@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Simulator | Per-Tech-Titans</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #12001f, #240046, #3c096c);
+            color: white;
+        }
+
+        .header {
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            background: rgba(15, 0, 30, 0.9);
+            border-bottom: 1px solid rgba(200, 150, 255, 0.3);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #d8b4fe;
+        }
+
+        .back-btn {
+            padding: 11px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #7b2cbf;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #9d4edd;
+        }
+
+        .container {
+            padding: 35px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 34px;
+            color: #e0aaff;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #c8b6e8;
+            margin-bottom: 35px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 25px;
+        }
+
+        .panel {
+            background: rgba(30, 5, 55, 0.85);
+            border: 1px solid rgba(190, 120, 255, 0.35);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .panel h2 {
+            color: #d8b4fe;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d6c6ee;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #6a1b9a;
+            background: #180027;
+            color: white;
+            outline: none;
+        }
+
+        .simulate-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(90deg, #7b2cbf, #9d4edd);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .simulate-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 20px rgba(157, 78, 221, 0.4);
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .result-card {
+            padding: 20px;
+            background: rgba(50, 10, 80, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(190, 120, 255, 0.25);
+        }
+
+        .result-card h3 {
+            color: #c8b6e8;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .value {
+            font-size: 30px;
+            font-weight: bold;
+            color: #e0aaff;
+        }
+
+        .chart {
+            height: 300px;
+            position: relative;
+            background: #160022;
+            border-radius: 12px;
+            border: 1px solid rgba(190, 120, 255, 0.25);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .chart-title {
+            color: #d8b4fe;
+            margin-bottom: 15px;
+        }
+
+        .bars {
+            height: 220px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            gap: 12px;
+        }
+
+        .bar {
+            width: 8%;
+            min-height: 20px;
+            background: linear-gradient(to top, #5a189a, #c77dff);
+            border-radius: 5px 5px 0 0;
+            transition: height 0.5s;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(123, 44, 191, 0.18);
+            color: #e0aaff;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .results {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo">NETGUARD-AI</div>
+
+        <button class="back-btn" onclick="goHome()">
+            ← Back to Dashboard
+        </button>
+    </header>
+
+    <main class="container">
+
+        <h1 class="title">Future Simulator</h1>
+
+        <p class="subtitle">
+            Simulate future traffic conditions and analyze possible network outcomes
+        </p>
+
+        <div class="layout">
+
+            <!-- CONTROL PANEL -->
+            <section class="panel">
+
+                <h2>Simulation Parameters</h2>
+
+                <div class="input-group">
+                    <label>Traffic Increase (%)</label>
+                    <input
+                        type="number"
+                        id="traffic"
+                        value="20"
+                        min="0"
+                        max="100"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label>Simulation Duration</label>
+
+                    <select id="duration">
+                        <option value="5">5 Minutes</option>
+                        <option value="10">10 Minutes</option>
+                        <option value="30">30 Minutes</option>
+                        <option value="60">1 Hour</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Scenario</label>
+
+                    <select id="scenario">
+                        <option value="normal">Normal Traffic</option>
+                        <option value="peak">Peak Traffic</option>
+                        <option value="incident">Traffic Incident</option>
+                    </select>
+                </div>
+
+                <button class="simulate-btn" onclick="runSimulation()">
+                    ▶ Run Simulation
+                </button>
+
+            </section>
+
+            <!-- RESULTS -->
+            <section>
+
+                <div class="results">
+
+                    <div class="result-card">
+                        <h3>Predicted Traffic</h3>
+                        <div class="value" id="trafficResult">--</div>
+                    </div>
+
+                    <div class="result-card">
+                        <h3>Network Load</h3>
+                        <div class="value" id="loadResult">--</div>
+                    </div>
+
+                    <div class="result-card">
+                        <h3>Risk Level</h3>
+                        <div class="value" id="riskResult">--</div>
+                    </div>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="chart">
+
+                        <div class="chart-title">
+                            Predicted Traffic Flow
+                        </div>
+
+                        <div class="bars" id="bars">
+
+                            <div class="bar" style="height:30%"></div>
+                            <div class="bar" style="height:35%"></div>
+                            <div class="bar" style="height:42%"></div>
+                            <div class="bar" style="height:50%"></div>
+                            <div class="bar" style="height:55%"></div>
+                            <div class="bar" style="height:60%"></div>
+                            <div class="bar" style="height:65%"></div>
+                            <div class="bar" style="height:70%"></div>
+                            <div class="bar" style="height:75%"></div>
+                            <div class="bar" style="height:80%"></div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="status" id="status">
+                        Configure the parameters and click
+                        <b>Run Simulation</b>.
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+<script>
+
+function runSimulation() {
+
+    let traffic = Number(document.getElementById("traffic").value);
+    let scenario = document.getElementById("scenario").value;
+
+    let predicted = 100 + traffic;
+
+    if (scenario === "peak") {
+        predicted += 25;
+    }
+
+    if (scenario === "incident") {
+        predicted += 40;
+    }
+
+    let load = Math.min(predicted * 0.75, 100);
+
+    let risk;
+
+    if (load < 50) {
+        risk = "LOW";
+    } else if (load < 75) {
+        risk = "MEDIUM";
+    } else {
+        risk = "HIGH";
+    }
+
+    document.getElementById("trafficResult").textContent =
+        predicted + "%";
+
+    document.getElementById("loadResult").textContent =
+        Math.round(load) + "%";
+
+    document.getElementById("riskResult").textContent =
+        risk;
+
+    document.getElementById("status").innerHTML =
+        "Simulation completed successfully. " +
+        "Predicted traffic is <b>" + predicted +
+        "%</b> with a <b>" + risk +
+        "</b> network risk level.";
+
+    updateChart(predicted);
+}
+
+
+function updateChart(value) {
+
+    const bars = document.querySelectorAll(".bar");
+
+    bars.forEach(function(bar, index) {
+
+        let height =
+            25 +
+            (value / 200) * 60 +
+            Math.random() * 15;
+
+        height = Math.min(height, 95);
+
+        bar.style.height = height + "%";
+    });
+}
+
+
+function goHome() {
+
+    window.location.href = "homepage.html";
+
+}
+
+</script>
+
+</body>
+</html>
