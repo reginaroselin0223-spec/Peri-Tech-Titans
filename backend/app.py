@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request,jsonify,send_from_directory
 from flask_cors import CORS
+import os
 import pandas as pd
 import io
 
-from ml_detector import analyze_dataframe
+from ml_detector import analyze_dataframe  
+
 
 
 # ============================================================
@@ -15,21 +17,26 @@ app = Flask(__name__)
 # Allow the frontend to communicate with Python
 CORS(app)
 
+FRONTENDED_FOLDER = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "..", "frontended")
+)
 
-# ============================================================
-# HOME / STATUS
-# ============================================================
+@app.route("/")
+def serve_homepage():
+    return send_from_directory(
+        FRONTENDED_FOLDER,
+        "homepage.html"
+    )
 
-@app.route("/", methods=["GET"])
-def home():
+@app.route("/<path:filename>")
+def serve_frontended(filename):
+    return send_from_directory(
+        FRONTENDED_FOLDER,
+        filename
+    )
 
-    return jsonify({
-        "message": "Predictive Network Attack Intelligence API",
-        "status": "online",
-        "system": "NetGuard AI",
-        "engine": "Behavioral Detection Engine",
-        "mode": "offline"
-    })
+
+
 
 
 # ============================================================
@@ -295,7 +302,6 @@ def health():
 # ============================================================
 
 if __name__ == "__main__":
-
     print()
     print("=" * 55)
     print("              NETGUARD AI BACKEND")
@@ -303,12 +309,67 @@ if __name__ == "__main__":
     print("Status : ONLINE")
     print("Mode   : OFFLINE")
     print("Engine : Behavioral Detection")
-    print("API    : http://127.0.0.1:5000")
     print("=" * 55)
     print()
 
+    port = int(os.environ.get("PORT", 5000))
+
     app.run(
-        host="127.0.0.1",
-        port=5000,
-        debug=True
+        host="0.0.0.0",
+        port=port,
+        debug=False
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
